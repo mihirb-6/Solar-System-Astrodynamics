@@ -123,21 +123,28 @@ z0 = -0.25
 vx0 = 0.02
 vy0 = -0.001
 vz0 = -0.006
-
 # Positions and Velocities stored in an array
 r0 = np.array([x0,y0,z0,vx0,vy0,vz0],float)
-
 #Set the desired tolerance
 tol = 1e-8
-
 # Call force function
 r_data, t_data = rkf45_curve(grav, t0, tf, r0, tol)
-
 # Use a dataframe to organize values
 df = pd.DataFrame(r_data)
 x = df[0]
 y = df[1]
 z = df[2]
+
+# Testing two objects now:
+r0_earth = np.array([1, 2, 3, 4, 5, 6], float)
+r0_merc = np.array([6, 5, 4, 3, 2, 1], float)
+
+r_earth_data, t_data = rkf45_curve(grav, t0, tf, r0_earth, tol)
+r_merc_data, t_data = rkf45_curve(grav, t0, tf, r0_merc, tol)
+
+df_E = pd.DataFrame(r_earth_data)
+df_merc = pd.DataFrame(r_merc_data)
+
 
 # Initialize plot and 3D axis
 fig = plt.figure()
@@ -145,6 +152,8 @@ ax = fig.add_subplot(111, projection='3d')
 
 # 3D plot of the positions
 line, = ax.plot(df[0], df[1], df[2])
+line, ax.plot(df_E[0], df_E[1], df_E[2])
+line, ax.plot(df_merc[0], df_merc[1], df_merc[2])
 
 # Setting the limits for the axes
 ax.set_xlim(min(df[0]), max(df[0]))
@@ -168,13 +177,3 @@ animation = FuncAnimation(fig,
 
 # Show the animation
 #plt.show()
-
-# Testing two objects now:
-r0_earth = np.array([1, 2, 3, 4, 5, 6], float)
-r0_merc = np.array([6, 5, 4, 3, 2, 1], float)
-
-r_earth_data, t_data = rkf45_curve(grav, t0, tf, r0_earth, tol)
-r_merc_data, t_data = rkf45_curve(grav, t0, tf, r0_merc, tol)
-
-df_E = pd.DataFrame(r_earth_data)
-df_merc = pd.DataFrame(r_merc_data)
