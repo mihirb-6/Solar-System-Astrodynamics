@@ -167,7 +167,7 @@ animation = FuncAnimation(fig,
                           blit=False)
 
 # Show the animation
-plt.show()
+#plt.show()
 
 # Testing two objects now:
 r0_earth = np.array([1, 2, 3, 4, 5, 6], float)
@@ -176,3 +176,5 @@ r0_merc = np.array([6, 5, 4, 3, 2, 1], float)
 r_earth_data, t_data = rkf45_curve(grav, t0, tf, r0_earth, tol)
 r_merc_data, t_data = rkf45_curve(grav, t0, tf, r0_merc, tol)
 
+df_E = pd.DataFrame(r_earth_data)
+df_merc = pd.DataFrame(r_merc_data)
